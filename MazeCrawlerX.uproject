@@ -1,0 +1,30 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{9F2537B7-4245-9940-A46C-569A07CCF799}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "MazeCrawlerX",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModelingToolsEditorMode",
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "MazeGenerator",
+			"Enabled": true,
+			"MarketplaceURL": "https://www.fab.com/listings/12e5c02d-ee39-44fc-98f4-1b1fe9923f57"
+		}
+	]
+}
