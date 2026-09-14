@@ -1,11 +1,18 @@
 #include "CPlayerCharacter.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Components/SpotLightComponent.h"
+#include "Camera/CameraComponent.h"
 
 ACPlayerCharacter::ACPlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	m_CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	m_CameraComponent->SetupAttachment(RootComponent);
+
+	m_PointLightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLight"));
+	m_PointLightComponent->SetupAttachment(m_CameraComponent);
 }
 
 void ACPlayerCharacter::BeginPlay()

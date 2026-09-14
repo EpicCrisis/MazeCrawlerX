@@ -7,6 +7,8 @@
 
 class UInputMappingContext;
 class UInputAction;
+class USpotLightComponent;
+class UCameraComponent;
 
 UCLASS()
 class MAZECRAWLERX_API ACPlayerCharacter : public ACharacter
@@ -15,6 +17,11 @@ class MAZECRAWLERX_API ACPlayerCharacter : public ACharacter
 
 public:
 	ACPlayerCharacter();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	TObjectPtr<UCameraComponent> m_CameraComponent = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Light")
+	TObjectPtr<USpotLightComponent> m_PointLightComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	UInputMappingContext* DefaultMappingContext = nullptr;
