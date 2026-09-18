@@ -2,6 +2,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Components/SpotLightComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "CFoodManager.h"
@@ -12,7 +13,7 @@ ACPlayerCharacter::ACPlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	m_CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	m_CameraComponent->SetupAttachment(RootComponent);
+	m_CameraComponent->SetupAttachment(GetCapsuleComponent());
 
 	m_PointLightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLight"));
 	m_PointLightComponent->SetupAttachment(m_CameraComponent);
