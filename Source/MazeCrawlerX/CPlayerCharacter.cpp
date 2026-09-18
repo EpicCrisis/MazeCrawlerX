@@ -3,6 +3,9 @@
 #include "EnhancedInputComponent.h"
 #include "Components/SpotLightComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "CFoodManager.h"
+#include "CPlayerHUD.h"
 
 ACPlayerCharacter::ACPlayerCharacter()
 {
@@ -19,6 +22,17 @@ void ACPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	m_FoodManager = Cast<ACFoodManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ACFoodManager::StaticClass()));
+	m_FoodManager->m_PlayerCharacter = this;
+
+	if (m_PlayerHUDClass)
+	{
+		m_PlayerHUD = CreateWidget<UCPlayerHUD>(GetWorld(), m_PlayerHUDClass);
+		m_PlayerHUD->AddToViewport();
+
+		m_FoodManager->m_PlayerHUD = m_PlayerHUD;
+		m_FoodManager->SetupMaxFood();
+	}
 }
 
 void ACPlayerCharacter::Tick(float DeltaTime)

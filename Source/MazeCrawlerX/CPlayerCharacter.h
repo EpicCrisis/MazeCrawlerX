@@ -9,6 +9,8 @@ class UInputMappingContext;
 class UInputAction;
 class USpotLightComponent;
 class UCameraComponent;
+class ACFoodManager;
+class UCPlayerHUD;
 
 UCLASS()
 class MAZECRAWLERX_API ACPlayerCharacter : public ACharacter
@@ -29,6 +31,14 @@ public:
 	UInputAction* MoveAction = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	UInputAction* LookAction = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Manager")
+	TObjectPtr<ACFoodManager> m_FoodManager = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UCPlayerHUD> m_PlayerHUDClass = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	UCPlayerHUD* m_PlayerHUD = nullptr;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
