@@ -7,6 +7,7 @@ class ACFoodSpawner;
 class ACFoodItem;
 class ACPlayerCharacter;
 class UCPlayerHUD;
+class UBillboardComponent;
 
 UCLASS()
 class MAZECRAWLERX_API ACFoodManager : public AActor
