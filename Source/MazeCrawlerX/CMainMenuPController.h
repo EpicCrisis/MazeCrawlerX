@@ -18,10 +18,19 @@ public:
 	UPROPERTY()
 	UUserWidget* MainMenuWidget = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelSelect")
+	FName Level1Name = "Level1Map";
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelSelect")
+	FName Level2Name = "Level2Map";
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelSelect")
+	FName Level3Name = "Level3Map";
+
 	void BeginPlay() override;
 
 	UFUNCTION()
 	void SetupMainMenu();
 	UFUNCTION()
 	void QuitGame();
+	UFUNCTION()
+	void LoadLevel(FName LevelName);
 };

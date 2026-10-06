@@ -1,6 +1,7 @@
 #include "CMainMenuPController.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 ACMainMenuPController::ACMainMenuPController()
 {
@@ -21,12 +22,11 @@ void ACMainMenuPController::SetupMainMenu()
 	if (MainMenuWidget)
 	{
 		MainMenuWidget->AddToViewport();
-		bShowMouseCursor = true;
 
+		bShowMouseCursor = true;
 		FInputModeUIOnly InputMode;
 		InputMode.SetWidgetToFocus(MainMenuWidget->TakeWidget());
 		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-
 		SetInputMode(InputMode);
 	}
 }
@@ -34,4 +34,9 @@ void ACMainMenuPController::SetupMainMenu()
 void ACMainMenuPController::QuitGame()
 {
 	UKismetSystemLibrary::QuitGame(this, this, EQuitPreference::Quit, true);
+}
+
+void ACMainMenuPController::LoadLevel(FName LevelName)
+{
+	UGameplayStatics::OpenLevel(this, LevelName);
 }

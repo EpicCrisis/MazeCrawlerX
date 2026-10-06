@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "CFoodManager.h"
 #include "CPlayerHUD.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ACPlayerCharacter::ACPlayerCharacter()
 {
@@ -24,22 +25,59 @@ void ACPlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	m_FoodManager = Cast<ACFoodManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ACFoodManager::StaticClass()));
-	m_FoodManager->m_PlayerCharacter = this;
+	if (m_FoodManager)
+	{
+		m_FoodManager->m_PlayerCharacter = this;
+	}
 
 	if (m_PlayerHUDClass)
 	{
 		m_PlayerHUD = CreateWidget<UCPlayerHUD>(GetWorld(), m_PlayerHUDClass);
 		m_PlayerHUD->AddToViewport();
 
-		m_FoodManager->m_PlayerHUD = m_PlayerHUD;
-		m_FoodManager->SetupMaxFood();
+		if (m_FoodManager)
+		{
+			m_FoodManager->m_PlayerHUD = m_PlayerHUD;
+			m_FoodManager->SetupMaxFood();
+		}
 	}
+
+	//head bob setup
+	m_CameraBaseLocation = m_CameraComponent->GetRelativeLocation();
 }
 
 void ACPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//setup head bob effect
+	if (m_CameraComponent)
+	{
+		FVector movementVelocity = GetVelocity();
+		float horizontalSpeed = FVector(movementVelocity.X, movementVelocity.Y, 0.0f).Size();
+		bool isWalking = false;
+		if (horizontalSpeed > 0.0f && GetCharacterMovement()->IsMovingOnGround())
+		{
+			isWalking = true;
+		}
+		if (isWalking)
+		{
+			m_BobTime += DeltaTime * m_BobSpeed;
+
+			float bobOffsetZ = FMath::Sin(m_BobTime) * m_BobAmount;
+			float bobOffsetY = FMath::Sin(m_BobTime * 2.0f) * m_BobSideAmount;
+
+			FVector newCameraLocation = m_CameraBaseLocation + FVector(0.0f, bobOffsetY, bobOffsetZ);
+			m_CameraComponent->SetRelativeLocation(newCameraLocation);
+		}
+		else
+		{
+			m_BobTime = 0.0f;
+
+			FVector newCameraLocation = FMath::VInterpTo(m_CameraComponent->GetRelativeLocation(), m_CameraBaseLocation, DeltaTime, 5.0f);
+			m_CameraComponent->SetRelativeLocation(newCameraLocation);
+		}
+	}
 }
 
 void ACPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

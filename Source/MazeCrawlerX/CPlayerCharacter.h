@@ -40,6 +40,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	UCPlayerHUD* m_PlayerHUD = nullptr;
 
+	//head bob effect
+	UPROPERTY(EditAnywhere, Category = "Camera Bob")
+	float m_BobSpeed = 8.0f;
+	UPROPERTY(EditAnywhere, Category = "Camera Bob")
+	float m_BobAmount = 3.0f;
+	UPROPERTY(EditAnywhere, Category = "Camera Bob")
+	float m_BobSideAmount = 1.5f;
+	UPROPERTY()
+	float m_BobTime = 0.0f;
+	UPROPERTY()
+	FVector m_CameraBaseLocation = FVector::ZeroVector;
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
